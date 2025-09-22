@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabelTugasBody = document.querySelector('#tabel-tugas tbody');
     const tabelSelesaiBody = document.querySelector('#tabel-selesai tbody');
 
-    // Memuat data dari localStorage saat halaman pertama kali dimuat
     loadTasks();
     loadCompletedTasks();
 
@@ -43,19 +42,18 @@ document.addEventListener('DOMContentLoaded', () => {
             completeTask(nama, deadline, newRow);
         });
 
+        // Pastikan Anda memanggil saveTasks() di dalam event listener hapus
         newRow.querySelector('.hapus-btn').addEventListener('click', () => {
             newRow.remove();
-            saveTasks();
+            saveTasks(); // Baris yang sangat penting
         });
 
         saveTasks();
     }
 
     function completeTask(nama, deadline, row) {
-        // Hapus dari tabel tugas yang belum selesai
         row.remove();
         
-        // Tambahkan ke tabel tugas yang sudah selesai
         const completedRow = document.createElement('tr');
         completedRow.innerHTML = `
             <td>${nama}</td>
@@ -63,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         tabelSelesaiBody.appendChild(completedRow);
 
-        // Simpan kedua daftar tugas ke localStorage
         saveTasks();
         saveCompletedTasks();
     }

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Memuat data dari localStorage saat halaman pertama kali dimuat
     loadTasks();
-    loadCompletedTasks();
+    loadCompletedTasks(); // Pastikan baris ini ada
 
     // Menambahkan event listener saat formulir dikirim (submit)
     formTugas.addEventListener('submit', (e) => {

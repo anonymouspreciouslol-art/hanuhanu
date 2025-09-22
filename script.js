@@ -123,12 +123,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
-    function loadCompletedTasks() {
-        const storedTasks = localStorage.getItem('completedTasks');
-        if (storedTasks) {
-            const tasks = JSON.parse(storedTasks);
-            tasks.forEach(task => {
-                const completedRow = document.createElement('tr');
-                completedRow.innerHTML = `
-                    <td>${task.nama}</td>
-                    <td>${task.deadline}</td>

@@ -3,14 +3,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const namaTugasInput = document.getElementById('nama-matkul');
     const deadlineInput = document.getElementById('deadline');
     const tabelTugasBody = document.querySelector('#tabel-tugas tbody');
+    const tabelSelesaiBody = document.querySelector('#tabel-selesai tbody');
 
     // Memuat data dari localStorage saat halaman pertama kali dimuat
     loadTasks();
+    loadCompletedTasks();
 
     // Menambahkan event listener saat formulir dikirim (submit)
     formTugas.addEventListener('submit', (e) => {
         e.preventDefault();
-
         const namaTugas = namaTugasInput.value;
         const deadline = deadlineInput.value;
 
@@ -19,10 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Memanggil fungsi untuk menambahkan tugas
         addTask(namaTugas, deadline);
 
-        // Mereset nilai formulir setelah data ditambahkan
         namaTugasInput.value = '';
         deadlineInput.value = '';
         namaTugasInput.focus();
@@ -34,21 +33,41 @@ document.addEventListener('DOMContentLoaded', () => {
         newRow.innerHTML = `
             <td>${nama}</td>
             <td>${deadline}</td>
-            <td><button class="hapus-btn">Hapus</button></td>
+            <td>
+                <button class="selesai-btn">Selesai</button>
+                <button class="hapus-btn">Hapus</button>
+            </td>
         `;
 
         tabelTugasBody.appendChild(newRow);
 
-        // Menambahkan event listener untuk tombol hapus pada baris baru
-        newRow.querySelector('.hapus-btn').addEventListener('click', () => {
-            newRow.remove();
-            saveTasks(); // Menyimpan data setelah tugas dihapus
+        newRow.querySelector('.selesai-btn').addEventListener('click', () => {
+            completeTask(nama, deadline, newRow);
         });
 
-        saveTasks(); // Menyimpan data setelah tugas baru ditambahkan
+        newRow.querySelector('.hapus-btn').addEventListener('click', () => {
+            newRow.remove();
+            saveTasks();
+        });
+
+        saveTasks();
     }
 
-    // Fungsi untuk menyimpan semua tugas ke localStorage
+    // Fungsi baru: memindahkan tugas ke tabel selesai
+    function completeTask(nama, deadline, row) {
+        const completedRow = document.createElement('tr');
+        completedRow.innerHTML = `
+            <td>${nama}</td>
+            <td>${deadline}</td>
+        `;
+        tabelSelesaiBody.appendChild(completedRow);
+
+        row.remove();
+        saveTasks();
+        saveCompletedTasks();
+    }
+
+    // Fungsi untuk menyimpan semua tugas yang belum selesai ke localStorage
     function saveTasks() {
         const rows = tabelTugasBody.querySelectorAll('tr');
         const tasks = [];
@@ -60,13 +79,41 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
-    // Fungsi untuk memuat tugas dari localStorage dan menampilkannya
+    // Fungsi untuk menyimpan tugas yang sudah selesai ke localStorage
+    function saveCompletedTasks() {
+        const rows = tabelSelesaiBody.querySelectorAll('tr');
+        const tasks = [];
+        rows.forEach(row => {
+            const nama = row.children[0].textContent;
+            const deadline = row.children[1].textContent;
+            tasks.push({ nama: nama, deadline: deadline });
+        });
+        localStorage.setItem('completedTasks', JSON.stringify(tasks));
+    }
+
+    // Fungsi untuk memuat tugas yang belum selesai dari localStorage
     function loadTasks() {
         const storedTasks = localStorage.getItem('tasks');
         if (storedTasks) {
             const tasks = JSON.parse(storedTasks);
             tasks.forEach(task => {
                 addTask(task.nama, task.deadline);
+            });
+        }
+    }
+
+    // Fungsi untuk memuat tugas yang sudah selesai dari localStorage
+    function loadCompletedTasks() {
+        const storedTasks = localStorage.getItem('completedTasks');
+        if (storedTasks) {
+            const tasks = JSON.parse(storedTasks);
+            tasks.forEach(task => {
+                const completedRow = document.createElement('tr');
+                completedRow.innerHTML = `
+                    <td>${task.nama}</td>
+                    <td>${task.deadline}</td>
+                `;
+                tabelSelesaiBody.appendChild(completedRow);
             });
         }
     }

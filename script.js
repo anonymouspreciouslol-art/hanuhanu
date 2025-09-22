@@ -115,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 tabelSelesaiBody.appendChild(completedRow);
                 
-                // Tambahkan event listener untuk tombol hapus
                 completedRow.querySelector('.hapus-btn').addEventListener('click', () => {
                     completedRow.remove();
                     saveCompletedTasks();
@@ -124,3 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+    function loadCompletedTasks() {
+        const storedTasks = localStorage.getItem('completedTasks');
+        if (storedTasks) {
+            const tasks = JSON.parse(storedTasks);
+            tasks.forEach(task => {
+                const completedRow = document.createElement('tr');
+                completedRow.innerHTML = `
+                    <td>${task.nama}</td>
+                    <td>${task.deadline}</td>

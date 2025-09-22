@@ -42,10 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
             completeTask(nama, deadline, newRow);
         });
 
-        // Pastikan Anda memanggil saveTasks() di dalam event listener hapus
         newRow.querySelector('.hapus-btn').addEventListener('click', () => {
             newRow.remove();
-            saveTasks(); // Baris yang sangat penting
+            saveTasks();
         });
 
         saveTasks();
@@ -58,8 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
         completedRow.innerHTML = `
             <td>${nama}</td>
             <td>${deadline}</td>
+            <td><button class="hapus-btn">Hapus</button></td>
         `;
         tabelSelesaiBody.appendChild(completedRow);
+
+        completedRow.querySelector('.hapus-btn').addEventListener('click', () => {
+            completedRow.remove();
+            saveCompletedTasks();
+        });
 
         saveTasks();
         saveCompletedTasks();
@@ -106,8 +111,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 completedRow.innerHTML = `
                     <td>${task.nama}</td>
                     <td>${task.deadline}</td>
+                    <td><button class="hapus-btn">Hapus</button></td>
                 `;
                 tabelSelesaiBody.appendChild(completedRow);
+                
+                // Tambahkan event listener untuk tombol hapus
+                completedRow.querySelector('.hapus-btn').addEventListener('click', () => {
+                    completedRow.remove();
+                    saveCompletedTasks();
+                });
             });
         }
     }

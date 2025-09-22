@@ -7,9 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Memuat data dari localStorage saat halaman pertama kali dimuat
     loadTasks();
-    loadCompletedTasks(); // Pastikan baris ini ada
+    loadCompletedTasks();
 
-    // Menambahkan event listener saat formulir dikirim (submit)
     formTugas.addEventListener('submit', (e) => {
         e.preventDefault();
         const namaTugas = namaTugasInput.value;
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
         namaTugasInput.focus();
     });
 
-    // Fungsi untuk menambahkan baris tugas baru ke tabel dan menyimpannya
     function addTask(nama, deadline) {
         const newRow = document.createElement('tr');
         newRow.innerHTML = `
@@ -53,8 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
         saveTasks();
     }
 
-    // Fungsi baru: memindahkan tugas ke tabel selesai
     function completeTask(nama, deadline, row) {
+        // Hapus dari tabel tugas yang belum selesai
+        row.remove();
+        
+        // Tambahkan ke tabel tugas yang sudah selesai
         const completedRow = document.createElement('tr');
         completedRow.innerHTML = `
             <td>${nama}</td>
@@ -62,12 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         tabelSelesaiBody.appendChild(completedRow);
 
-        row.remove();
+        // Simpan kedua daftar tugas ke localStorage
         saveTasks();
         saveCompletedTasks();
     }
 
-    // Fungsi untuk menyimpan semua tugas yang belum selesai ke localStorage
     function saveTasks() {
         const rows = tabelTugasBody.querySelectorAll('tr');
         const tasks = [];
@@ -79,19 +79,17 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
-    // Fungsi untuk menyimpan tugas yang sudah selesai ke localStorage
     function saveCompletedTasks() {
         const rows = tabelSelesaiBody.querySelectorAll('tr');
-        const tasks = [];
+        const completedTasks = [];
         rows.forEach(row => {
             const nama = row.children[0].textContent;
             const deadline = row.children[1].textContent;
-            tasks.push({ nama: nama, deadline: deadline });
+            completedTasks.push({ nama: nama, deadline: deadline });
         });
-        localStorage.setItem('completedTasks', JSON.stringify(tasks));
+        localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
     }
 
-    // Fungsi untuk memuat tugas yang belum selesai dari localStorage
     function loadTasks() {
         const storedTasks = localStorage.getItem('tasks');
         if (storedTasks) {
@@ -102,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Fungsi untuk memuat tugas yang sudah selesai dari localStorage
     function loadCompletedTasks() {
         const storedTasks = localStorage.getItem('completedTasks');
         if (storedTasks) {

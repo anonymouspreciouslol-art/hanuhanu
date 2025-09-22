@@ -1,0 +1,90 @@
+body {
+    font-family: sans-serif;
+    background-color: #e3f2fd; /* Warna biru langit yang lembut */
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #ffffff; /* Putih bersih seperti awan */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+h1 {
+    color: #0d47a1; /* Biru gelap seperti laut dalam */
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+#form-tugas {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#form-tugas input, #form-tugas button {
+    padding: 12px;
+    border: 1px solid #bbdefb; /* Border biru muda */
+    border-radius: 6px;
+    flex-grow: 1;
+    font-size: 1em;
+}
+
+#form-tugas input {
+    color: #0d47a1; /* Warna teks input biru gelap */
+}
+
+#form-tugas button {
+    background-color: #42a5f5; /* Biru cerah seperti air laut */
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#form-tugas button:hover {
+    background-color: #1e88e5; /* Biru yang lebih tua saat di-hover */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; /* Penting untuk menjaga border-radius */
+}
+
+th, td {
+    border: 1px solid #e0f2f1; /* Garis tabel yang sangat tipis dan lembut */
+    padding: 12px;
+    text-align: left;
+    color: #1a237e; /* Warna teks dalam tabel */
+}
+
+th {
+    background-color: #b3e5fc; /* Latar belakang header tabel biru muda */
+    font-weight: 600;
+}
+
+.hapus-btn {
+    background-color: #ff8a80; /* Merah muda lembut */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.hapus-btn:hover {
+    background-color: #ff5252; /* Merah yang lebih cerah saat di-hover */
+}
